@@ -6,8 +6,11 @@ i just made it why not.
 
 -- EXAMPLES FOR INPUT OF THE EDITOR -- 
 
-binary|html|hello world|html|binary|quit
+Input:
+binary|html|hello world|html|binary
 
+Output:
+\x3c\x68\x31\x3e\x68\x68|\x6c\x6c\x6f\x20\x77\x6f\x72\x6c\x64\x3c\x2f\x68\x31\x3e
 
 
 -- EXAMPLES OF KEYWORDS -- 

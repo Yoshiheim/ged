@@ -8,7 +8,7 @@ import (
 func AddBinary(b []byte) string {
 	buf := ""
 	for _, v := range b {
-		buf += "\\x" + strconv.Itoa(int(v))
+		buf += "\\x" + strconv.FormatInt(int64(v), 16)
 	}
 	return buf
 }
