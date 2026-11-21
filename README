@@ -1,2 +1,14 @@
 GED - Golang EDitor.
 i just made it why not.
+
+for edit code: binary|html|write|quit
+
+binary: set binary mode, will convert text to binary
+
+html: set html mode, will convert text to html
+
+write: write current text to file
+
+quit: quit the program
+
+a '|' is used to separate commands, so you can use multiple commands at once.
