@@ -1,10 +1,16 @@
 GED - Golang ed.
-
 its a like ed but in go.
-
 i just made it why not.
 
-for edit code: binary|html|write|quit
+
+
+-- EXAMPLES FOR INPUT OF THE EDITOR -- 
+
+binary|html|hello world|html|binary|quit
+
+
+
+-- EXAMPLES OF KEYWORDS -- 
 
 binary: set binary mode, will convert text to binary
 
@@ -14,4 +20,8 @@ write: write current text to file
 
 quit: quit the program
 
-a '|' is used to separate commands, so you can use multiple commands at once.
+remove <NUMBER>: removes last symbols in the text.
+
+and a '|' is used to separate commands, so you can use multiple commands at once.
+
+if you use tags such as "html" and "binary" again, its turn off text convert, so "html|hello|html|hello" will wirte "<h1>hello</h1>hello".
