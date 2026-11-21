@@ -7,6 +7,10 @@ import (
 	"strings"
 )
 
+var SizeOfDisplay = 10
+
+var Filename = ""
+
 var IsRunning = true
 
 var CurrentText = ""
@@ -20,8 +24,11 @@ func ReadInput() string {
 }
 
 func PrintItAndSaveFile(f *os.File) {
-	str := ""
-	for i := 1; i < 1000; i++ {
+	if SizeOfDisplay <= 0 {
+		SizeOfDisplay = 1
+	}
+	str := strings.Repeat(" ", (80-len(Filename))/2) + Filename + "\n"
+	for i := 1; i < 80*SizeOfDisplay; i++ {
 		switch {
 		case i%80 == 0:
 			str += "\n"
@@ -29,10 +36,10 @@ func PrintItAndSaveFile(f *os.File) {
 			switch CurrentText[i%len(CurrentText)] {
 			case '\n', '\b':
 			default:
-				str += string(CurrentText[i%len(CurrentText)])
+				str += string(CurrentText[(i-1)%len(CurrentText)])
 			}
 		default:
-			str += " "
+			str += "."
 		}
 	}
 	if f != nil {
@@ -42,6 +49,6 @@ func PrintItAndSaveFile(f *os.File) {
 }
 
 // Prints With Color
-// func ColorString(s string, color int) string {
-// 	return string(fmt.Sprintf("\033[%dm%s\033[00m", 40+(color%10), s))
-// }
+func ColorString(s string, color int) string {
+	return string(fmt.Sprintf("\033[%dm%s\033[00m", 40+(color%10), s))
+}

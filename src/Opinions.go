@@ -20,8 +20,13 @@ func UseOpinion(s string) {
 
 		case "quit":
 			IsRunning = false
+		case "clear":
+			CurrentText = ""
+		case "sizemore":
+			SizeOfDisplay++
+		case "sizeless":
+			SizeOfDisplay--
 		default:
-			fmt.Println(v)
 			buf := v
 			if IsHTMLMode {
 				buf = fmt.Sprintf("<%s>%s</%s>", "h1", buf, "h1")
