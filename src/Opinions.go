@@ -22,13 +22,12 @@ func UseOpinion(s string) {
 		case "clear":
 			CurrentText = ""
 		case "sizemore":
-			SizeOfDisplay++
+			Heigth++
 		case "sizeless":
-			SizeOfDisplay--
+			Heigth--
 		default:
-
 			switch {
-			case strings.HasPrefix(v, "remove"):
+			case strings.HasPrefix(v, "remove:"):
 				n, err := strconv.Atoi(v[7:])
 				fmt.Println(v[7:])
 
@@ -38,8 +37,7 @@ func UseOpinion(s string) {
 					if n > len(CurrentText) {
 						CurrentText = ""
 					} else {
-						CurrentText = CurrentText[:len(CurrentText)-(n+1)]
-
+						CurrentText = CurrentText[:len(CurrentText)-(n)]
 					}
 				}
 
