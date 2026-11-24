@@ -27,3 +27,4 @@ remove <NUMBER>: removes last symbols in the text.
 and a '|' is used to separate commands, so you can use multiple commands at once.
 
 if you use tags such as "html" and "binary" again, its turn off text convert, so "html|hello|html|hello" will write "<h1>hello</h1>hello".
+this input knows as TGS - Text Generator Script, its "micro language" like regex but regex is for parsing, but this is for generate text.
