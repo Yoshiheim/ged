@@ -42,7 +42,7 @@ func PrintItAndSaveFile() {
 			str += "\n" + linenum + "|"
 		case i-1 < len(CurrentText):
 			if CurrentText[i-1] > 126 || CurrentText[i-1] < 32 {
-				str += AsSingleHex(CurrentText[i-1], "\\x")
+				str += AsNumberChar(CurrentText[i-1], "\\x", HEXADECIMAL)
 			} else {
 				str += string(CurrentText[(i-1)%len(CurrentText)])
 			}
