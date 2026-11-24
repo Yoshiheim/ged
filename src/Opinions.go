@@ -83,7 +83,7 @@ func DoOpinion(v string) {
 			buf = fmt.Sprintf("<%s>%s</%s>", "h1", buf, "h1")
 		}
 		if IsBinaryMode {
-			buf = AsHex([]byte(buf), "\\x")
+			buf = AsNumberString([]byte(buf), "\\x", HEXADECIMAL)
 		}
 		CurrentText += buf
 	}
