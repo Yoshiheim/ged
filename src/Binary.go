@@ -1,18 +1,17 @@
 package src
 
 import (
-	"fmt"
 	"strconv"
 )
 
-func AddBinary(b []byte) string {
+func AsHex(b []byte, sep string) string {
 	buf := ""
 	for _, v := range b {
-		buf += "\\x" + strconv.FormatInt(int64(v), 16)
+		buf += sep + strconv.FormatInt(int64(v), 16)
 	}
 	return buf
 }
 
-func AddSingleBinary(b byte) string {
-	return fmt.Sprintf("\\x%d", b)
+func AsSingleHex(b byte, sep string) string {
+	return sep + strconv.FormatInt(int64(b), 16)
 }
