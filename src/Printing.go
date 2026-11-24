@@ -17,6 +17,8 @@ var IsRunning = true
 
 var CurrentText = ""
 
+var str = ""
+
 func ReadInput() string {
 	scan := bufio.NewScanner(os.Stdin)
 	if scan.Scan() {
@@ -25,15 +27,11 @@ func ReadInput() string {
 	return ""
 }
 
-func FileTitle() string {
-	return strings.Repeat(" ", (80-len(Filename))/2) + "/" + Filename + "\n"
-}
-
 func PrintItAndSaveFile() {
 	if Heigth <= 0 {
 		Heigth = 1
 	}
-	str := FileTitle()
+	str = strings.Repeat(" ", (80-len(Filename))/2) + "/" + Filename + "\n"
 	str += strings.Repeat("_", 80)
 	for i := 0; i < Width*Heigth; i++ {
 		switch {
@@ -50,5 +48,6 @@ func PrintItAndSaveFile() {
 			str += "."
 		}
 	}
+
 	fmt.Println(string(str))
 }
