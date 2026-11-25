@@ -27,7 +27,7 @@ func DoOpinion(v string) {
 			buf = fmt.Sprintf("<%s>%s</%s>", HTMLTag, buf, HTMLTag)
 		case IsHexMode:
 			buf = AsNumberString([]byte(buf), "\\x", HEXADECIMAL)
-		}
-		CurrentText += buf
+    default:
+      CurrentText += buf
 	}
 }
