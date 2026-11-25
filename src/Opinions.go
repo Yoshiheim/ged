@@ -20,13 +20,14 @@ func UseOpinion(s string) {
 }
 
 func DoOpinion(v string) {
-	ReadText(v)
-	buf := v
-	switch {
-	case IsHTMLMode:
-		buf = fmt.Sprintf("<%s>%s</%s>", HTMLTag, buf, HTMLTag)
-	case IsHexMode:
-		buf = AsNumberString([]byte(buf), "\\x", HEXADECIMAL)
+	if !ReadText(v) {
+		buf := v
+		switch {
+		case IsHTMLMode:
+			buf = fmt.Sprintf("<%s>%s</%s>", HTMLTag, buf, HTMLTag)
+		case IsHexMode:
+			buf = AsNumberString([]byte(buf), "\\x", HEXADECIMAL)
+		}
+		CurrentText += buf
 	}
-	CurrentText += buf
 }

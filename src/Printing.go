@@ -42,8 +42,9 @@ func PrintItAndSaveFile() {
 		} else if i-1 < len(CurrentText) {
 			if CurrentText[i-1] > 126 || CurrentText[i-1] < 32 {
 				if IsSelectedBinary {
+					str += ColorString(AsNumberChar(CurrentText[i-1], "\\x", HEXADECIMAL), 4)
+				} else {
 					str += AsNumberChar(CurrentText[i-1], "\\x", HEXADECIMAL)
-
 				}
 			} else {
 				str += string(CurrentText[(i-1)%len(CurrentText)])

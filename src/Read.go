@@ -23,8 +23,8 @@ var SwitchFunc = map[string]func(){
 	"htmlend": func() { IsHTMLMode = false },
 	"quit":    func() { IsRunning = false },
 
-	"select":     func() { IsSelectedBinary = true },
-	"stopselect": func() { IsSelectedBinary = false },
+	"select":    func() { IsSelectedBinary = true },
+	"selectend": func() { IsSelectedBinary = false },
 }
 
 // var PrefixsesFunc = map[string]func(v string){
@@ -40,17 +40,6 @@ var SwitchFunc = map[string]func(){
 // 			return
 // 		}
 // 		UseOpinion(string(script))
-// 	},
-// 	"https://": func(v string) {
-// 		r, err := http.Get(v)
-// 		if err != nil {
-// 			return
-// 		}
-// 		b, err := io.ReadAll(r.Body)
-// 		if err != nil {
-// 			return
-// 		}
-// 		CurrentText += string(b)
 // 	},
 // 	"remove:": func(v string) {
 // 		n, err := strconv.Atoi(v[7:])
@@ -84,10 +73,11 @@ func CheckPrefix(s string, prefix string) (bool, string) {
 	return false, ""
 }
 
-func ReadText(v string) {
+func ReadText(v string) bool {
 	f, ok := SwitchFunc[v]
 	if ok {
 		f()
+		return true
 	}
 	for _, prefix := range Prefixses {
 		// REMEBER:
@@ -102,17 +92,17 @@ func ReadText(v string) {
 					DoOpinion(code)
 				}
 				continue
-
 			case "open":
 				//this open special tgs script(tgs means "text generator script"), this tgs script is your input
 				script, err := os.ReadFile(v[5:])
 				if err != nil {
-					return
+					return false
 				}
 				UseOpinion(string(script))
 				continue
+			default:
+				CurrentText += v
 			}
-			CurrentText += v
 
 			// if prefix == "rep" {
 			// 	for i := 0; i < 10; i++ {
@@ -123,4 +113,6 @@ func ReadText(v string) {
 			// }
 		}
 	}
+	return false
+
 }
