@@ -1,11 +1,7 @@
 package src
 
 import (
-	"fmt"
-	"io"
-	"net/http"
 	"os"
-	"strconv"
 	"strings"
 )
 
@@ -17,45 +13,59 @@ var Prefixses = []string{
 
 var EndSuffix = "end"
 
-var PrefixsesFunc = map[string]func(v string){
-	// "rep:": func(v string) {
-	// 	for i := 0; i < 10; i++ {
-	// 		DoOpinion(v[4:])
-	// 	}
-	// },
-	// "open:": func(v string) {
-	// 	//this open special tgs script(tgs means "text generator script"), this tgs script is your input
-	// 	script, err := os.ReadFile(v[5:])
-	// 	if err != nil {
-	// 		return
-	// 	}
-	// 	UseOpinion(string(script))
-	// },
-	"https://": func(v string) {
-		r, err := http.Get(v)
-		if err != nil {
-			return
-		}
-		b, err := io.ReadAll(r.Body)
-		if err != nil {
-			return
-		}
-		CurrentText += string(b)
+var SwitchFunc = map[string]func(){
+	"reverse": func() {
+		CurrentText = ReverseString(CurrentText)
 	},
-	"remove:": func(v string) {
-		n, err := strconv.Atoi(v[7:])
-		fmt.Println(v[7:])
-		if err != nil {
-			return
-		} else {
-			if n > len(CurrentText) {
-				CurrentText = ""
-			} else {
-				CurrentText = CurrentText[:len(CurrentText)-(n)]
-			}
-		}
-	},
+	"hex":     func() { IsHexMode = true },
+	"hexend":  func() { IsHexMode = false },
+	"html":    func() { IsHTMLMode = true },
+	"htmlend": func() { IsHTMLMode = false },
+	"quit":    func() { IsRunning = false },
+
+	"select":     func() { IsSelectedBinary = true },
+	"stopselect": func() { IsSelectedBinary = false },
 }
+
+// var PrefixsesFunc = map[string]func(v string){
+// 	"rep:": func(v string) {
+// 		for i := 0; i < 10; i++ {
+// 			DoOpinion(v[4:])
+// 		}
+// 	},
+// 	"open:": func(v string) {
+// 		//this open special tgs script(tgs means "text generator script"), this tgs script is your input
+// 		script, err := os.ReadFile(v[5:])
+// 		if err != nil {
+// 			return
+// 		}
+// 		UseOpinion(string(script))
+// 	},
+// 	"https://": func(v string) {
+// 		r, err := http.Get(v)
+// 		if err != nil {
+// 			return
+// 		}
+// 		b, err := io.ReadAll(r.Body)
+// 		if err != nil {
+// 			return
+// 		}
+// 		CurrentText += string(b)
+// 	},
+// 	"remove:": func(v string) {
+// 		n, err := strconv.Atoi(v[7:])
+// 		fmt.Println(v[7:])
+// 		if err != nil {
+// 			return
+// 		} else {
+// 			if n > len(CurrentText) {
+// 				CurrentText = ""
+// 			} else {
+// 				CurrentText = CurrentText[:len(CurrentText)-(n)]
+// 			}
+// 		}
+// 	},
+// }
 
 func ReverseString(s string) string {
 	c := ""
@@ -75,25 +85,9 @@ func CheckPrefix(s string, prefix string) (bool, string) {
 }
 
 func ReadText(v string) {
-	switch v {
-	case "reverse":
-		CurrentText = ReverseString(CurrentText)
-		return
-	case "hex":
-		IsHexMode = true
-		return
-	case "hexend":
-		IsHexMode = false
-		return
-	case "html":
-		IsHTMLMode = true
-		return
-	case "htmlend":
-		IsHTMLMode = false
-		return
-	case "quit":
-		IsRunning = false
-		return
+	f, ok := SwitchFunc[v]
+	if ok {
+		f()
 	}
 	for _, prefix := range Prefixses {
 		// REMEBER:
