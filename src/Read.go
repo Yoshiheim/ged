@@ -91,7 +91,7 @@ func ReadText(v string) bool {
 				for i := 0; i < 10; i++ {
 					DoOpinion(code)
 				}
-				continue
+				return true
 			case "open":
 				//this open special tgs script(tgs means "text generator script"), this tgs script is your input
 				script, err := os.ReadFile(v[5:])
@@ -99,7 +99,7 @@ func ReadText(v string) bool {
 					return false
 				}
 				UseOpinion(string(script))
-				continue
+				return true
 			default:
 				CurrentText += v
 			}
