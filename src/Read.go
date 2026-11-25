@@ -1,0 +1,132 @@
+package src
+
+import (
+	"fmt"
+	"io"
+	"net/http"
+	"os"
+	"strconv"
+	"strings"
+)
+
+var Prefixses = []string{
+	"settag",
+	"rep",
+	"open",
+}
+
+var EndSuffix = "end"
+
+var PrefixsesFunc = map[string]func(v string){
+	// "rep:": func(v string) {
+	// 	for i := 0; i < 10; i++ {
+	// 		DoOpinion(v[4:])
+	// 	}
+	// },
+	// "open:": func(v string) {
+	// 	//this open special tgs script(tgs means "text generator script"), this tgs script is your input
+	// 	script, err := os.ReadFile(v[5:])
+	// 	if err != nil {
+	// 		return
+	// 	}
+	// 	UseOpinion(string(script))
+	// },
+	"https://": func(v string) {
+		r, err := http.Get(v)
+		if err != nil {
+			return
+		}
+		b, err := io.ReadAll(r.Body)
+		if err != nil {
+			return
+		}
+		CurrentText += string(b)
+	},
+	"remove:": func(v string) {
+		n, err := strconv.Atoi(v[7:])
+		fmt.Println(v[7:])
+		if err != nil {
+			return
+		} else {
+			if n > len(CurrentText) {
+				CurrentText = ""
+			} else {
+				CurrentText = CurrentText[:len(CurrentText)-(n)]
+			}
+		}
+	},
+}
+
+func ReverseString(s string) string {
+	c := ""
+	for s != "" {
+		c += string(s[len(s)-1])
+		s = s[:len(s)-1]
+	}
+	return c
+}
+
+func CheckPrefix(s string, prefix string) (bool, string) {
+	prefix += ":"
+	if strings.HasPrefix(s, prefix) {
+		return true, s[len(prefix):]
+	}
+	return false, ""
+}
+
+func ReadText(v string) {
+	switch v {
+	case "reverse":
+		CurrentText = ReverseString(CurrentText)
+		return
+	case "hex":
+		IsHexMode = true
+		return
+	case "hexend":
+		IsHexMode = false
+		return
+	case "html":
+		IsHTMLMode = true
+		return
+	case "htmlend":
+		IsHTMLMode = false
+		return
+	case "quit":
+		IsRunning = false
+		return
+	}
+	for _, prefix := range Prefixses {
+		// REMEBER:
+		// var wtih name code: text after prefix.
+		// var wtih name prefix.
+		// and var wtih v is whole text.
+		hasPrefix, code := CheckPrefix(v, prefix)
+		if hasPrefix {
+			switch prefix {
+			case "rep":
+				for i := 0; i < 10; i++ {
+					DoOpinion(code)
+				}
+				continue
+
+			case "open":
+				//this open special tgs script(tgs means "text generator script"), this tgs script is your input
+				script, err := os.ReadFile(v[5:])
+				if err != nil {
+					return
+				}
+				UseOpinion(string(script))
+				continue
+			}
+			CurrentText += v
+
+			// if prefix == "rep" {
+			// 	for i := 0; i < 10; i++ {
+			// 		DoOpinion(code)
+			// 	}
+			// } else {
+			// 	CurrentText += v
+			// }
+		}
+	}
+}

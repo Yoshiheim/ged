@@ -1,2 +1,1 @@
-settag:script|html|console.log("|binary|hello world|binary|")
-|its ok
+console.log("|binary|https://wttr.in|binaryend| - data")
